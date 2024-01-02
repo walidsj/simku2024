@@ -36,6 +36,7 @@ export default function Page() {
                     id="username"
                     name="username"
                     errors={state?.errors?.username}
+                    required
                 />
             </FormGroup>
             <FormGroup>
@@ -45,6 +46,7 @@ export default function Page() {
                     id="password"
                     name="password"
                     errors={state?.errors?.password}
+                    required
                 />
             </FormGroup>
             <Button type="submit">Login</Button>

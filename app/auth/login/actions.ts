@@ -11,8 +11,8 @@ export async function authenticateUser(
     formData: FormData
 ) {
     const schema = z.object({
-        username: z.string().min(1),
-        password: z.string().min(8),
+        username: z.string(),
+        password: z.string(),
     })
 
     const validatedFields = await schema.safeParseAsync({

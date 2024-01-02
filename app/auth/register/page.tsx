@@ -32,7 +32,12 @@ export default function Page() {
             )}
             <FormGroup>
                 <FormLabel htmlFor="nama">Nama Lengkap</FormLabel>
-                <FormInput id="nama" name="nama" errors={state?.errors?.nama} />
+                <FormInput
+                    id="nama"
+                    name="nama"
+                    errors={state?.errors?.nama}
+                    required
+                />
             </FormGroup>
             <FormGroup>
                 <FormLabel htmlFor="jabatan">Jabatan</FormLabel>
@@ -40,11 +45,17 @@ export default function Page() {
                     id="jabatan"
                     name="jabatan"
                     errors={state?.errors?.jabatan}
+                    required
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel htmlFor="nip">NIP</FormLabel>
-                <FormInput id="nip" name="nip" errors={state?.errors?.nip} />
+                <FormInput
+                    id="nip"
+                    name="nip"
+                    errors={state?.errors?.nip}
+                    required
+                />
             </FormGroup>
             <FormGroup>
                 <FormLabel htmlFor="email">Email</FormLabel>
@@ -53,6 +64,7 @@ export default function Page() {
                     id="email"
                     name="email"
                     errors={state?.errors?.email}
+                    required
                 />
             </FormGroup>
             <FormGroup>
@@ -62,6 +74,7 @@ export default function Page() {
                     id="password"
                     name="password"
                     errors={state?.errors?.password}
+                    required
                 />
             </FormGroup>
             <Button type="submit" className="mt-3">

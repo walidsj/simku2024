@@ -3,15 +3,14 @@
 import { useFormStatus } from 'react-dom'
 import { FiLoader } from 'react-icons/fi'
 import clsx from 'clsx'
+import { ButtonHTMLAttributes } from 'react'
 
 export function Button({
     children,
     ...props
 }: {
     children: React.ReactNode
-    type: string
-    className: string | undefined
-}) {
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
     const { pending } = useFormStatus()
 
     if (props.type === 'submit') {

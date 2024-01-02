@@ -47,7 +47,7 @@ export function FormInput({
             />
 
             {errors && (
-                <ol className="text-xs text-red-500 tracking-wide py-2">
+                <ol className="text-xs text-red-500 tracking-wide pt-2">
                     {errors?.map((error: string, i: number) => (
                         <li key={i} className="inline-flex gap-1 items-center">
                             <FiXCircle />

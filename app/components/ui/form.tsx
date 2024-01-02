@@ -2,6 +2,7 @@
 
 import clsx from 'clsx'
 import React, { Fragment } from 'react'
+import { FiXCircle } from 'react-icons/fi'
 
 export function FormGroup({
     children,
@@ -46,9 +47,12 @@ export function FormInput({
             />
 
             {errors && (
-                <ol className="list-disc text-xs text-red-500 tracking-wide pl-5 py-2">
+                <ol className="text-xs text-red-500 tracking-wide py-2">
                     {errors?.map((error: string, i: number) => (
-                        <li key={i}>{error}</li>
+                        <li key={i} className="inline-flex gap-1 items-center">
+                            <FiXCircle />
+                            {error}
+                        </li>
                     ))}
                 </ol>
             )}

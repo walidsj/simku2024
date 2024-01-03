@@ -1,12 +1,19 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { FiAlertCircle } from 'react-icons/fi'
-import { FormGroup, FormInput, FormLabel } from '@/components/ui/form'
+import {
+    FiAlertCircle,
+    FiArrowLeft,
+    FiEye,
+    FiEyeOff,
+    FiLogIn,
+} from 'react-icons/fi'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
+import { ActionIcon, Button, Card, Flex, TextInput, Title } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { SubmitButton } from '@/components/ui/button'
 
 export default function Page() {
     const router = useRouter()
@@ -21,6 +28,8 @@ export default function Page() {
         error: false,
         message: '',
     })
+
+    const [showPassword, handleShowPassword] = useDisclosure(false)
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -50,48 +59,70 @@ export default function Page() {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="p-6 rounded-lg bg-white border border-gray-300 flex flex-col gap-3 w-80"
-        >
-            <h3 className="text-xl font-bold tracking-wide">Login</h3>
+        <Fragment>
+            <Card
+                component="form"
+                onSubmit={handleSubmit}
+                padding="lg"
+                withBorder
+                radius="md"
+                w={300}
+            >
+                <Flex direction="column" gap="md">
+                    <Title fw={700} order={3}>
+                        Masuk Aplikasi
+                    </Title>
 
-            {state?.error && (
-                <p className="bg-red-50 border border-red-300 p-2 rounded-lg text-red-500 font-semibold text-sm inline-flex items-center gap-2">
-                    <FiAlertCircle className="text-lg" /> {state.message}
-                </p>
-            )}
-            <FormGroup>
-                <FormLabel htmlFor="username">Alamat Email/NIP</FormLabel>
-                <FormInput
-                    id="username"
-                    name="username"
-                    placeholder="Alamat Email/NIP"
-                    required
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <FormInput
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                />
-            </FormGroup>
-            <Button isLoading={state?.pending} type="submit">
-                Login
+                    {state?.error && (
+                        <p className="bg-red-50 border border-red-300 p-2 rounded-lg text-red-500 font-semibold text-sm inline-flex items-center gap-2">
+                            <FiAlertCircle className="text-lg" />{' '}
+                            {state.message}
+                        </p>
+                    )}
+                    <TextInput
+                        name="username"
+                        label="Alamat Email/NIP"
+                        placeholder="Alamat Email/NIP"
+                        radius="md"
+                        required
+                    />
+                    <TextInput
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        label="Password"
+                        placeholder="Password"
+                        radius="md"
+                        required
+                        rightSection={
+                            <ActionIcon
+                                onClick={() => handleShowPassword.toggle()}
+                                component={showPassword ? FiEyeOff : FiEye}
+                                variant="subtle"
+                                size="sm"
+                                color="gray"
+                            />
+                        }
+                    />
+                    <SubmitButton
+                        loading={state?.pending}
+                        leftSection={<FiLogIn />}
+                        color="dark"
+                        radius="md"
+                    >
+                        Login
+                    </SubmitButton>
+                </Flex>
+            </Card>
+            <Button
+                component={Link}
+                href="/auth"
+                variant="subtle"
+                leftSection={<FiArrowLeft />}
+                color="dark"
+                radius="md"
+            >
+                Kembali
             </Button>
-            <span>
-                Belum punya akun?{' '}
-                <Link
-                    href="/auth/register"
-                    className="font-semibold text-sky-500"
-                >
-                    Registrasi
-                </Link>
-            </span>
-        </form>
+        </Fragment>
     )
 }

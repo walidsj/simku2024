@@ -3,12 +3,15 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
 
+import '@mantine/core/styles.css'
+import { ColorSchemeScript } from '@mantine/core'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
     title: {
-        default: 'Simku 24',
-        template: '%s | Simku 24',
+        default: 'Simku24',
+        template: '%s | Simku24',
     },
     description:
         'Aplikasi Sistem Informasi Keuangan BLUD RSJD Atma Husada Mahakam Tahun 2024',
@@ -31,6 +34,9 @@ export default function RootLayout({
 }) {
     return (
         <html lang="id">
+            <head>
+                <ColorSchemeScript />
+            </head>
             <body className={inter.className}>
                 <Providers>{children}</Providers>
             </body>

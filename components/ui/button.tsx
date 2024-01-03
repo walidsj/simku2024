@@ -3,6 +3,7 @@
 import { useFormStatus } from 'react-dom'
 import clsx from 'clsx'
 import { Fragment } from 'react'
+import { ButtonProps, Button as MantineButton } from '@mantine/core'
 
 const LoadingIndicator = () => (
     <Fragment>
@@ -46,5 +47,20 @@ export function Button({
         >
             {children}
         </button>
+    )
+}
+
+export function SubmitButton({ children, ...props }: ButtonProps) {
+    const { pending } = useFormStatus()
+
+    return (
+        <MantineButton
+            {...props}
+            type="submit"
+            loading={pending || props?.loading}
+            loaderProps={{ type: 'dots' }}
+        >
+            {children}
+        </MantineButton>
     )
 }

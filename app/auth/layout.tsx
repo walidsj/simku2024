@@ -1,7 +1,15 @@
+import { Flex } from '@mantine/core'
+
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <main className="flex flex-col items-center justify-center h-screen">
+        <Flex
+            justify="center"
+            align="center"
+            direction="column"
+            mih={'96vh'}
+            gap="md"
+        >
             {children}
-        </main>
+        </Flex>
     )
 }

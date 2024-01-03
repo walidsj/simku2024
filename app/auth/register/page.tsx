@@ -1,19 +1,29 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { SubmitButton } from '@/components/ui/button'
 import { createUser } from './actions'
 import { useFormState } from 'react-dom'
 import { initialFormState } from '@/types/form-state'
-import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
-import { FormGroup, FormInput, FormLabel } from '@/components/ui/form'
+import {
+    FiAlertCircle,
+    FiArrowLeft,
+    FiCheckCircle,
+    FiEye,
+    FiEyeOff,
+    FiUserPlus,
+} from 'react-icons/fi'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
+import { Card, Flex, Title, Button, TextInput, ActionIcon } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 
 export default function Page() {
     const [state, formAction] = useFormState(
         createUser as any,
         initialFormState
     )
+
+    const [showPassword, handleShowPassword] = useDisclosure(false)
 
     const formRef = useRef<HTMLFormElement>(null)
 
@@ -24,84 +34,104 @@ export default function Page() {
     }, [state?.success])
 
     return (
-        <form
-            ref={formRef}
-            action={formAction}
-            className="p-6 rounded-lg bg-white border border-gray-300 flex flex-col gap-3 w-96"
-        >
-            <h3 className="text-xl font-bold tracking-wide">Registrasi Akun</h3>
-            {state?.success && (
-                <p className="bg-green-50 border border-green-300 p-2 rounded-lg text-green-500 font-semibold text-sm inline-flex items-center gap-2">
-                    <FiCheckCircle className="text-lg" /> {state.message}
-                </p>
-            )}
-            {state?.error && (
-                <p className="bg-red-50 border border-red-300 p-2 rounded-lg text-red-500 font-semibold text-sm inline-flex items-center gap-2">
-                    <FiAlertCircle className="text-lg" /> {state.message}
-                </p>
-            )}
-            <FormGroup>
-                <FormLabel htmlFor="nama">Nama Lengkap</FormLabel>
-                <FormInput
-                    id="nama"
-                    name="nama"
-                    errors={state?.errors?.nama}
-                    placeholder="Nama Lengkap"
-                    required
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel htmlFor="jabatan">Jabatan</FormLabel>
-                <FormInput
-                    id="jabatan"
-                    name="jabatan"
-                    errors={state?.errors?.jabatan}
-                    placeholder="Jabatan"
-                    required
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel htmlFor="nip">NIP</FormLabel>
-                <FormInput
-                    id="nip"
-                    name="nip"
-                    errors={state?.errors?.nip}
-                    placeholder="NIP"
-                    required
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel htmlFor="email">Alamat Email</FormLabel>
-                <FormInput
-                    type="email"
-                    id="email"
-                    name="email"
-                    errors={state?.errors?.email}
-                    placeholder="Alamat Email"
-                    required
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <FormInput
-                    type="password"
-                    id="password"
-                    name="password"
-                    errors={state?.errors?.password}
-                    placeholder="Password"
-                    required
-                />
-            </FormGroup>
-            <Button type="submit" className="mt-3">
-                Daftar Akun
-            </Button>
+        <Fragment>
+            <Card
+                component="form"
+                ref={formRef}
+                action={formAction}
+                padding="lg"
+                withBorder
+                radius="md"
+                w={350}
+            >
+                <Flex direction="column" gap="md">
+                    <Title fw={700} order={3}>
+                        Registrasi Akun
+                    </Title>
 
-            <span>
-                Sudah punya akun?{' '}
-                <Link href="/auth/login" className="font-semibold text-sky-500">
-                    Masuk
-                </Link>
-            </span>
-        </form>
+                    {state?.success && (
+                        <p className="bg-green-50 border border-green-300 p-2 rounded-lg text-green-500 font-semibold text-sm inline-flex items-center gap-2">
+                            <FiCheckCircle className="text-lg" />{' '}
+                            {state.message}
+                        </p>
+                    )}
+                    {state?.error && (
+                        <p className="bg-red-50 border border-red-300 p-2 rounded-lg text-red-500 font-semibold text-sm inline-flex items-center gap-2">
+                            <FiAlertCircle className="text-lg" />{' '}
+                            {state.message}
+                        </p>
+                    )}
+                    <TextInput
+                        name="nama"
+                        label="Nama Lengkap"
+                        placeholder="Nama Lengkap"
+                        error={state?.errors?.nama}
+                        radius="md"
+                        required
+                    />
+                    <TextInput
+                        name="jabatan"
+                        label="Jabatan"
+                        placeholder="Jabatan"
+                        error={state?.errors?.jabatan}
+                        description="Jabatan Struktural/JFU/JFT."
+                        radius="md"
+                        required
+                    />
+                    <TextInput
+                        name="nip"
+                        label="NIP"
+                        placeholder="NIP"
+                        error={state?.errors?.nip}
+                        radius="md"
+                        required
+                    />
+                    <TextInput
+                        name="email"
+                        type="email"
+                        label="Alamat Email"
+                        placeholder="Alamat Email"
+                        error={state?.errors?.email}
+                        radius="md"
+                        required
+                    />
+                    <TextInput
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        label="Password"
+                        placeholder="Password"
+                        error={state?.errors?.password}
+                        radius="md"
+                        required
+                        rightSection={
+                            <ActionIcon
+                                onClick={() => handleShowPassword.toggle()}
+                                component={showPassword ? FiEyeOff : FiEye}
+                                variant="subtle"
+                                size="sm"
+                                color="gray"
+                            />
+                        }
+                    />
+                    <SubmitButton
+                        leftSection={<FiUserPlus />}
+                        color="dark"
+                        radius="md"
+                    >
+                        Daftar Akun
+                    </SubmitButton>
+                </Flex>
+            </Card>
+            <Button
+                component={Link}
+                href="/auth"
+                variant="subtle"
+                leftSection={<FiArrowLeft />}
+                color="dark"
+                radius="md"
+            >
+                Kembali
+            </Button>
+        </Fragment>
     )
 }

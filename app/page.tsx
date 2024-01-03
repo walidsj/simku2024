@@ -1,26 +1,27 @@
+import { Title, Text, Button, Flex } from '@mantine/core'
 import Link from 'next/link'
+import { FiArrowRight } from 'react-icons/fi'
 
 export default function Page() {
     return (
-        <main className="flex flex-col items-center justify-center h-screen">
-            <h2 className="font-semibold text-xl tracking-wider">
-                Selamat Datang, Sahabat!
-            </h2>
-            <h3 className="font-black text-5xl flex flex-row gap-3 items-end">
-                Aplikasi SIMKU
-                <span className="bg-black text-white p-2 text-5xl rounded-xl -rotate-12">
-                    24
-                </span>
-            </h3>
-            <p className="text-xs text-center text-gray-500 tracking-wide">
+        <Flex justify="center" align="center" direction="column" mih={'96vh'}>
+            <Title order={1} fw={900}>
+                Aplikasi Simku24
+            </Title>
+            <Text c="dimmed" mb="md">
                 Simple as finest, as easy as possible
-            </p>
-            <Link
+            </Text>
+
+            <Button
+                component={Link}
                 href="/auth"
-                className="mt-5 bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all"
+                rightSection={<FiArrowRight />}
+                variant="filled"
+                color="dark"
+                radius="md"
             >
                 Akses Aplikasi
-            </Link>
-        </main>
+            </Button>
+        </Flex>
     )
 }

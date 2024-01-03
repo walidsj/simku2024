@@ -4,20 +4,17 @@ import { SubmitButton } from '@/components/ui/button'
 import { createUser } from './actions'
 import { useFormState } from 'react-dom'
 import { initialFormState } from '@/types/form-state'
-import {
-    FiAlertCircle,
-    FiArrowLeft,
-    FiCheckCircle,
-    FiEye,
-    FiEyeOff,
-    FiUserPlus,
-} from 'react-icons/fi'
+import { FiArrowLeft, FiEye, FiEyeOff, FiUserPlus } from 'react-icons/fi'
 import Link from 'next/link'
 import { Fragment, useEffect, useRef } from 'react'
 import { Card, Flex, Title, Button, TextInput, ActionIcon } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
+    const router = useRouter()
+
     const [state, formAction] = useFormState(
         createUser as any,
         initialFormState
@@ -28,10 +25,16 @@ export default function Page() {
     const formRef = useRef<HTMLFormElement>(null)
 
     useEffect(() => {
-        if (state?.success) {
-            formRef.current?.reset()
+        switch (state?.success) {
+            case true:
+                toast.success(state?.message)
+                router.push('/auth/login')
+                break
+            case false:
+                toast.error(state?.message)
+                break
         }
-    }, [state?.success])
+    }, [state])
 
     return (
         <Fragment>
@@ -42,30 +45,18 @@ export default function Page() {
                 padding="lg"
                 withBorder
                 radius="md"
-                w={350}
+                w="25rem"
             >
                 <Flex direction="column" gap="md">
                     <Title fw={700} order={3}>
                         Registrasi Akun
                     </Title>
-
-                    {state?.success && (
-                        <p className="bg-green-50 border border-green-300 p-2 rounded-lg text-green-500 font-semibold text-sm inline-flex items-center gap-2">
-                            <FiCheckCircle className="text-lg" />{' '}
-                            {state.message}
-                        </p>
-                    )}
-                    {state?.error && (
-                        <p className="bg-red-50 border border-red-300 p-2 rounded-lg text-red-500 font-semibold text-sm inline-flex items-center gap-2">
-                            <FiAlertCircle className="text-lg" />{' '}
-                            {state.message}
-                        </p>
-                    )}
                     <TextInput
                         name="nama"
                         label="Nama Lengkap"
                         placeholder="Nama Lengkap"
                         error={state?.errors?.nama}
+                        description="Nama lengkap dengan gelar."
                         radius="md"
                         required
                     />
@@ -74,7 +65,7 @@ export default function Page() {
                         label="Jabatan"
                         placeholder="Jabatan"
                         error={state?.errors?.jabatan}
-                        description="Jabatan Struktural/JFU/JFT."
+                        description="Jabatan Struktural, JFU, atau JFT."
                         radius="md"
                         required
                     />
@@ -92,6 +83,7 @@ export default function Page() {
                         label="Alamat Email"
                         placeholder="Alamat Email"
                         error={state?.errors?.email}
+                        description="Alamat email aktif yang dapat dihubungi."
                         radius="md"
                         required
                     />
@@ -101,6 +93,7 @@ export default function Page() {
                         label="Password"
                         placeholder="Password"
                         error={state?.errors?.password}
+                        description="Minimal 8 karakter."
                         radius="md"
                         required
                         rightSection={

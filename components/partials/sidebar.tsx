@@ -1,69 +1,106 @@
+'use client'
+
 import Link from 'next/link'
-import { FiBook, FiChevronRight, FiHome, FiPieChart } from 'react-icons/fi'
+import { useState } from 'react'
+import { FiBook, FiFile, FiHome, FiPieChart } from 'react-icons/fi'
+import { Tooltip, Title, rem, Button, Flex, NavLink } from '@mantine/core'
+import { usePathname } from 'next/navigation'
+
+const mainLinksMockdata = [
+    { icon: FiHome, label: 'Beranda' },
+    { icon: FiPieChart, label: 'Anggaran' },
+    { icon: FiBook, label: 'Penatausahaan' },
+]
+
+const linksMockdata = [
+    {
+        icon: FiHome,
+        label: 'Dashboard',
+        description: 'Halaman Ringkasan',
+        href: '/dashboard',
+    },
+    {
+        icon: FiFile,
+        label: 'DPA',
+        description: 'Daftar Pelaksanaan Anggaran',
+        href: '/dashboard/anggaran/dpa',
+    },
+    {
+        icon: FiFile,
+        label: 'Pengajuan UP',
+        description: 'Uang Persediaan',
+        href: '/dashboard/penatausahaan/pengajuan-up',
+    },
+]
 
 export default function Sidebar() {
+    const pathname = usePathname()
+    const [active, setActive] = useState('Beranda')
+
+    const mainLinks = mainLinksMockdata.map((link, i) => (
+        <Tooltip
+            key={i}
+            label={link.label}
+            position="right"
+            withArrow
+            transitionProps={{ duration: 0 }}
+        >
+            <Button
+                variant={link.label === active ? 'filled' : 'subtle'}
+                color="dark"
+                onClick={() => setActive(link.label)}
+                fz="xl"
+                radius="md"
+            >
+                <link.icon />
+            </Button>
+        </Tooltip>
+    ))
+
+    const links = linksMockdata.map((link, i) => (
+        <NavLink
+            key={i}
+            component={Link}
+            href={link.href}
+            color="dark"
+            active={pathname === link.href}
+            label={link.label}
+            description={link.description}
+            leftSection={<FiBook />}
+        />
+    ))
+
     return (
-        <aside className="w-full">
-            <ul className="flex flex-col gap-4 border border-gray-300 p-3 rounded-lg">
-                <li>
-                    <Link
-                        href="/dashboard"
-                        className="flex flex-row gap-2 items-center font-bold tracking-wide"
-                    >
-                        <FiHome className="text-lg" />
-                        <span>Dashboard</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        href="/dashboard"
-                        className="flex flex-row gap-2 items-center font-bold tracking-wide"
-                    >
-                        <FiPieChart className="text-lg" />
-                        <span>Anggaran</span>
-                    </Link>
-                    <ul className="flex flex-col gap-2 ml-4 mt-2">
-                        <li>
-                            <Link
-                                href="/dashboard/anggaran/dpa"
-                                className="flex flex-row gap-2 items-center tracking-wide text-sm"
-                            >
-                                <FiChevronRight className="text-lg" />
-                                <span>DPA</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/dashboard"
-                                className="flex flex-row gap-2 items-center tracking-wide text-sm"
-                            >
-                                <FiChevronRight className="text-lg" />
-                                <span>Penetapan Pergeseran</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <Link
-                        href="/dashboard"
-                        className="flex flex-row gap-2 items-center font-bold tracking-wide"
-                    >
-                        <FiBook className="text-lg" />
-                        <span>Penatausahaan</span>
-                    </Link>
-                    <ul className="flex flex-col gap-2 ml-4 mt-2">
-                        <li>
-                            <Link
-                                href="/dashboard/penatausahaan/pengajuan-up"
-                                className="flex flex-row gap-2 items-center tracking-wide text-sm"
-                            >
-                                <FiChevronRight className="text-lg" />
-                                <span>Pengajuan UP</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+        <Flex mih="calc(100vh - 71px)" w={rem(350)}>
+            <Flex
+                direction="column"
+                gap="xs"
+                p="sm"
+                style={{
+                    borderRight: '1px solid #dee2e6',
+                }}
+            >
+                {mainLinks}
+            </Flex>
+            <Flex
+                direction="column"
+                flex={1}
+                p={0}
+                style={{
+                    borderRight: '1px solid #dee2e6',
+                }}
+            >
+                <Title
+                    order={4}
+                    p="md"
+                    style={{
+                        borderBottom: '1px solid #dee2e6',
+                    }}
+                >
+                    {active}
+                </Title>
+                <nav>{links}</nav>
+            </Flex>
+        </Flex>
     )
 }

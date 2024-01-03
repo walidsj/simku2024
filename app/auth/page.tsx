@@ -13,7 +13,7 @@ export default function Page() {
                     <Card padding="lg" withBorder radius="md">
                         <Group mb="md">
                             <Title fw={700} order={3}>
-                                Masuk Aplikasi
+                                Login Aplikasi
                             </Title>
                             <Text c="dimmed" size="sm">
                                 Login untuk mengakses aplikasi.

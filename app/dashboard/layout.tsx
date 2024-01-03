@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
-import { Fragment } from 'react'
 import Header from '@/components/partials/header'
 import Sidebar from '@/components/partials/sidebar'
+import { Flex } from '@mantine/core'
 
 export const metadata: Metadata = {
     title: 'Dashboard',
@@ -9,14 +9,14 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <Fragment>
+        <Flex direction="column">
             <Header />
-            <main className="container mx-auto py-5 flex flex-row gap-6">
-                <div className="w-60">
-                    <Sidebar />
-                </div>
-                <div className="flex-1">{children}</div>
-            </main>
-        </Fragment>
+            <Flex direction="row">
+                <Sidebar />
+                <Flex flex={1} p="xl" direction="column">
+                    {children}
+                </Flex>
+            </Flex>
+        </Flex>
     )
 }

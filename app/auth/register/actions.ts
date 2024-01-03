@@ -50,8 +50,8 @@ export async function createUser(prevState: PrevState, formData: FormData) {
 
     if (!validatedFields.success) {
         return {
-            error: true,
-            message: 'Data yang anda masukkan tidak valid.',
+            success: false,
+            message: 'Data yang Anda masukkan tidak valid.',
             errors: validatedFields.error.flatten().fieldErrors,
         }
     }
@@ -70,7 +70,7 @@ export async function createUser(prevState: PrevState, formData: FormData) {
 
     if (!user) {
         return {
-            error: true,
+            success: false,
             message: 'Terjadi kesalahan saat membuat user baru.',
         }
     }

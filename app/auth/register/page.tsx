@@ -108,7 +108,7 @@ export default function Page() {
                                 onClick={() => handleShowPassword.toggle()}
                                 component={showPassword ? FiEyeOff : FiEye}
                                 variant="subtle"
-                                size="sm"
+                                size="xs"
                                 color="gray"
                             />
                         }

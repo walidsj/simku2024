@@ -12,7 +12,7 @@ export default function Page() {
             <div className="grid grid-cols-2 gap-3">
                 <Link
                     href="/auth/login"
-                    className="p-3 rounded-lg bg-white border border-gray-300 shadow-md text-center hover:scale-105 transition-all hover:border-gray-700"
+                    className="p-3 rounded-lg bg-white border border-gray-300 text-center hover:scale-105 transition-all hover:border-gray-700"
                 >
                     <Image
                         src="/account.png"
@@ -28,7 +28,7 @@ export default function Page() {
                 </Link>
                 <Link
                     href="/auth/register"
-                    className="p-3 rounded-lg bg-white border border-gray-300 shadow-md text-center hover:scale-105 transition-all hover:border-gray-700"
+                    className="p-3 rounded-lg bg-white border border-gray-300 text-center hover:scale-105 transition-all hover:border-gray-700"
                 >
                     <Image
                         src="/register.png"
@@ -47,7 +47,7 @@ export default function Page() {
             </div>
             <Link
                 href="/"
-                className="mt-5 bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all shadow-md"
+                className="mt-5 bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all"
             >
                 Beranda
             </Link>

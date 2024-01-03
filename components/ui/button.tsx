@@ -30,7 +30,7 @@ export function Button({
                 disabled={pending || props?.isLoading}
                 type="submit"
                 className={clsx(
-                    'bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-center',
+                    'bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-center',
                     props.className
                 )}
             >
@@ -42,7 +42,7 @@ export function Button({
     return (
         <button
             type="button"
-            className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+            className="bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-center"
         >
             {children}
         </button>

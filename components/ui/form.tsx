@@ -39,7 +39,7 @@ export function FormInput({
         <Fragment>
             <input
                 className={clsx(
-                    'py-2 px-4 border rounded-lg w-full',
+                    'py-2 px-3 border rounded-lg w-full',
                     props?.errors ? 'border-red-300' : 'border-gray-300'
                 )}
                 {...props}

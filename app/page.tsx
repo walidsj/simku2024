@@ -8,7 +8,7 @@ export default function Page() {
             </h2>
             <h3 className="font-black text-5xl flex flex-row gap-3 items-end">
                 Aplikasi SIMKU
-                <span className="bg-sky-500 text-white p-2 text-5xl rounded-xl -rotate-12">
+                <span className="bg-black text-white p-2 text-5xl rounded-xl -rotate-12">
                     24
                 </span>
             </h3>
@@ -17,7 +17,7 @@ export default function Page() {
             </p>
             <Link
                 href="/auth"
-                className="mt-5 bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all shadow-md"
+                className="mt-5 bg-black text-white font-semibold tracking-wider py-2 px-4 rounded-lg hover:bg-gray-700 transition-all"
             >
                 Akses Aplikasi
             </Link>

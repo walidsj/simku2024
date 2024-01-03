@@ -1,8 +1,8 @@
 'use server'
 
-import { PrevState } from '@/app/types/form-state'
+import { PrevState } from '@/types/form-state'
 import { z } from 'zod'
-import prisma from '@/app/lib/prisma'
+import prisma from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 
 export async function createUser(prevState: PrevState, formData: FormData) {

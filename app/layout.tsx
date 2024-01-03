@@ -7,8 +7,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
     title: {
-        default: 'Aplikasi Simku 2024',
-        template: '%s | Simku 2024',
+        default: 'Simku 24',
+        template: '%s | Simku 24',
     },
     description:
         'Aplikasi Sistem Informasi Keuangan BLUD RSJD Atma Husada Mahakam Tahun 2024',

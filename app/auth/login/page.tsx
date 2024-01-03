@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { FiAlertCircle } from 'react-icons/fi'
-import { FormGroup, FormInput, FormLabel } from '@/app/components/ui/form'
+import { FormGroup, FormInput, FormLabel } from '@/components/ui/form'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -52,7 +52,7 @@ export default function Page() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="p-6 rounded-lg bg-white border border-gray-300 shadow-md flex flex-col gap-3 w-80"
+            className="p-6 rounded-lg bg-white border border-gray-300 flex flex-col gap-3 w-80"
         >
             <h3 className="text-xl font-bold tracking-wide">Login</h3>
 
@@ -62,8 +62,13 @@ export default function Page() {
                 </p>
             )}
             <FormGroup>
-                <FormLabel htmlFor="username">Email/NIP</FormLabel>
-                <FormInput id="username" name="username" required />
+                <FormLabel htmlFor="username">Alamat Email/NIP</FormLabel>
+                <FormInput
+                    id="username"
+                    name="username"
+                    placeholder="Alamat Email/NIP"
+                    required
+                />
             </FormGroup>
             <FormGroup>
                 <FormLabel htmlFor="password">Password</FormLabel>
@@ -71,6 +76,7 @@ export default function Page() {
                     type="password"
                     id="password"
                     name="password"
+                    placeholder="Password"
                     required
                 />
             </FormGroup>

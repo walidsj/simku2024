@@ -1,12 +1,13 @@
 'use client'
 
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { createUser } from './actions'
 import { useFormState } from 'react-dom'
-import { initialFormState } from '@/app/types/form-state'
+import { initialFormState } from '@/types/form-state'
 import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
-import { FormGroup, FormInput, FormLabel } from '@/app/components/ui/form'
+import { FormGroup, FormInput, FormLabel } from '@/components/ui/form'
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
 
 export default function Page() {
     const [state, formAction] = useFormState(
@@ -14,10 +15,19 @@ export default function Page() {
         initialFormState
     )
 
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        if (state?.success) {
+            formRef.current?.reset()
+        }
+    }, [state?.success])
+
     return (
         <form
+            ref={formRef}
             action={formAction}
-            className="p-6 rounded-lg bg-white border border-gray-300 shadow-md flex flex-col gap-3 w-96"
+            className="p-6 rounded-lg bg-white border border-gray-300 flex flex-col gap-3 w-96"
         >
             <h3 className="text-xl font-bold tracking-wide">Registrasi Akun</h3>
             {state?.success && (
@@ -36,6 +46,7 @@ export default function Page() {
                     id="nama"
                     name="nama"
                     errors={state?.errors?.nama}
+                    placeholder="Nama Lengkap"
                     required
                 />
             </FormGroup>
@@ -45,6 +56,7 @@ export default function Page() {
                     id="jabatan"
                     name="jabatan"
                     errors={state?.errors?.jabatan}
+                    placeholder="Jabatan"
                     required
                 />
             </FormGroup>
@@ -54,16 +66,18 @@ export default function Page() {
                     id="nip"
                     name="nip"
                     errors={state?.errors?.nip}
+                    placeholder="NIP"
                     required
                 />
             </FormGroup>
             <FormGroup>
-                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormLabel htmlFor="email">Alamat Email</FormLabel>
                 <FormInput
                     type="email"
                     id="email"
                     name="email"
                     errors={state?.errors?.email}
+                    placeholder="Alamat Email"
                     required
                 />
             </FormGroup>
@@ -74,6 +88,7 @@ export default function Page() {
                     id="password"
                     name="password"
                     errors={state?.errors?.password}
+                    placeholder="Password"
                     required
                 />
             </FormGroup>

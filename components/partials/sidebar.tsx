@@ -6,38 +6,59 @@ import { FiBook, FiFile, FiHome, FiPieChart } from 'react-icons/fi'
 import { Tooltip, Title, rem, Button, Flex, NavLink } from '@mantine/core'
 import { usePathname } from 'next/navigation'
 
-const mainLinksMockdata = [
+const mainLinksData = [
     { icon: FiHome, label: 'Beranda' },
     { icon: FiPieChart, label: 'Anggaran' },
     { icon: FiBook, label: 'Penatausahaan' },
 ]
 
-const linksMockdata = [
+const linksData = [
     {
         icon: FiHome,
         label: 'Dashboard',
         description: 'Halaman Ringkasan',
         href: '/dashboard',
+        parent: 'Beranda',
     },
     {
         icon: FiFile,
         label: 'DPA',
         description: 'Daftar Pelaksanaan Anggaran',
         href: '/dashboard/anggaran/dpa',
+        parent: 'Anggaran',
     },
     {
         icon: FiFile,
         label: 'Pengajuan UP',
         description: 'Uang Persediaan',
         href: '/dashboard/penatausahaan/pengajuan-up',
+        parent: 'Penatausahaan',
     },
 ]
 
 export default function Sidebar() {
     const pathname = usePathname()
-    const [active, setActive] = useState('Beranda')
+    const [active, setActive] = useState('')
 
-    const mainLinks = mainLinksMockdata.map((link, i) => (
+    function isActiveLink(href: string) {
+        if (href === '/dashboard') {
+            if (pathname === href) return true
+            return false
+        } else {
+            if (pathname.startsWith(href)) return true
+        }
+        return false
+    }
+
+    function getActiveParentLabel() {
+        return linksData.find((link) => isActiveLink(link.href))?.parent
+    }
+
+    function isActiveParent(label: string) {
+        return label === getActiveParentLabel()
+    }
+
+    const mainLinks = mainLinksData.map((link, i) => (
         <Tooltip
             key={i}
             label={link.label}
@@ -46,7 +67,15 @@ export default function Sidebar() {
             transitionProps={{ duration: 0 }}
         >
             <Button
-                variant={link.label === active ? 'filled' : 'subtle'}
+                variant={
+                    active
+                        ? link.label === active
+                            ? 'filled'
+                            : 'subtle'
+                        : isActiveParent(link.label)
+                        ? 'filled'
+                        : 'subtle'
+                }
                 color="dark"
                 onClick={() => setActive(link.label)}
                 fz="xl"
@@ -57,18 +86,23 @@ export default function Sidebar() {
         </Tooltip>
     ))
 
-    const links = linksMockdata.map((link, i) => (
-        <NavLink
-            key={i}
-            component={Link}
-            href={link.href}
-            color="dark"
-            active={pathname === link.href}
-            label={link.label}
-            description={link.description}
-            leftSection={<FiBook />}
-        />
-    ))
+    const links = linksData
+        .filter((link) => {
+            if (!active) return link.parent === getActiveParentLabel()
+            return link.parent === active
+        })
+        .map((link, i) => (
+            <NavLink
+                key={i}
+                component={Link}
+                href={link.href}
+                color="dark"
+                active={isActiveLink(link.href)}
+                label={link.label}
+                description={link.description}
+                leftSection={<FiBook />}
+            />
+        ))
 
     return (
         <Flex w={rem(350)}>
@@ -97,7 +131,7 @@ export default function Sidebar() {
                         borderBottom: '1px solid #dee2e6',
                     }}
                 >
-                    {active}
+                    {active || getActiveParentLabel()}
                 </Title>
                 <nav>{links}</nav>
             </Flex>

@@ -7,8 +7,8 @@ import { ColorSchemeScript } from '@mantine/core'
 
 export const metadata: Metadata = {
     title: {
-        default: '#Simku24',
-        template: '%s | #Simku24',
+        default: 'Simku24',
+        template: '%s | Simku24',
     },
     description:
         'Aplikasi Sistem Informasi Keuangan BLUD RSJD Atma Husada Mahakam Tahun 2024',

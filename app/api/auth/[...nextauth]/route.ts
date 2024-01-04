@@ -48,6 +48,7 @@ const authOptions: NextAuthOptions = {
                     nip: user.nip,
                     email: user.email,
                     role: user.role,
+                    jabatan: user.jabatan,
                 } as any
             },
         }),
@@ -60,6 +61,7 @@ const authOptions: NextAuthOptions = {
                 token.nip = user.nip
                 token.email = user.email
                 token.role = user.role
+                token.jabatan = user.jabatan
             }
             return token
         },
@@ -78,6 +80,9 @@ const authOptions: NextAuthOptions = {
             }
             if ('role' in token) {
                 session.user.role = token.role
+            }
+            if ('jabatan' in token) {
+                session.user.jabatan = token.jabatan
             }
 
             return session

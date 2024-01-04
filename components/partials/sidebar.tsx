@@ -71,7 +71,7 @@ export default function Sidebar() {
     ))
 
     return (
-        <Flex mih="calc(100vh - 71px)" w={rem(350)}>
+        <Flex w={rem(350)}>
             <Flex
                 direction="column"
                 gap="xs"

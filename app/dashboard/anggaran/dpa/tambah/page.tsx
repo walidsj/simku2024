@@ -1,60 +1,65 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { FormGroup, FormInput, FormLabel } from '@/components/ui/form'
-import Link from 'next/link'
+import { SubmitButton } from '@/components/ui/button'
+import { Card, Flex, Paper, TextInput, Title } from '@mantine/core'
+import { FiPlus } from 'react-icons/fi'
 
 export default function Page() {
     return (
-        <div className="flex flex-col gap-3">
-            <h1 className="font-bold text-2xl">Tambah Data DPA</h1>
-            <form className="p-6 rounded-lg bg-white border border-gray-300 flex flex-col gap-3 w-96">
-                <FormGroup>
-                    <FormLabel htmlFor="nama">Nama Lengkap</FormLabel>
-                    <FormInput
-                        id="nama"
+        <Paper>
+            <Title order={2} mb="sm">
+                Tambah Data DPA
+            </Title>
+            <Card
+                component="form"
+                padding="lg"
+                withBorder
+                radius="md"
+                w="25rem"
+            >
+                <Flex direction="column" gap="md">
+                    <TextInput
                         name="nama"
+                        label="Nama Lengkap"
                         placeholder="Nama Lengkap"
+                        description="Nama lengkap dengan gelar."
+                        radius="md"
                         required
                     />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel htmlFor="jabatan">Jabatan</FormLabel>
-                    <FormInput
-                        id="jabatan"
+                    <TextInput
                         name="jabatan"
+                        label="Jabatan"
                         placeholder="Jabatan"
+                        description="Jabatan Struktural, JFU, atau JFT."
+                        radius="md"
                         required
                     />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel htmlFor="nip">NIP</FormLabel>
-                    <FormInput id="nip" name="nip" placeholder="NIP" required />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel htmlFor="email">Alamat Email</FormLabel>
-                    <FormInput
-                        type="email"
-                        id="email"
+                    <TextInput
+                        name="nip"
+                        label="NIP"
+                        placeholder="NIP"
+                        radius="md"
+                        required
+                    />
+                    <TextInput
                         name="email"
+                        type="email"
+                        label="Alamat Email"
                         placeholder="Alamat Email"
+                        description="Alamat email aktif yang dapat dihubungi."
+                        radius="md"
                         required
                     />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel htmlFor="password">Password</FormLabel>
-                    <FormInput
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        required
-                    />
-                </FormGroup>
-                <Button type="submit" className="mt-3">
-                    Simpan Data
-                </Button>
-            </form>
-        </div>
+
+                    <SubmitButton
+                        leftSection={<FiPlus />}
+                        color="dark"
+                        radius="md"
+                    >
+                        Tambah Data
+                    </SubmitButton>
+                </Flex>
+            </Card>
+        </Paper>
     )
 }

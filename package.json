@@ -10,6 +10,7 @@
         "prisma": "pnpm exec prisma"
     },
     "dependencies": {
+        "@mantine/charts": "^7.4.0",
         "@mantine/core": "^7.4.0",
         "@mantine/hooks": "^7.4.0",
         "@prisma/client": "^5.7.1",

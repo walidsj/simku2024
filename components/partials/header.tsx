@@ -7,8 +7,10 @@ import {
     Group,
     NavLink,
     Popover,
+    Skeleton,
     Text,
     Title,
+    UnstyledButton,
     rem,
 } from '@mantine/core'
 import { signOut, useSession } from 'next-auth/react'
@@ -23,6 +25,7 @@ export default function Header() {
             mx="auto"
             direction="row"
             justify="space-between"
+            align="center"
             px="lg"
             mih={rem(70)}
             w="100%"
@@ -30,22 +33,18 @@ export default function Header() {
                 borderBottom: '1px solid #dee2e6',
             }}
         >
-            <Link
-                href="/dashboard"
-                className="font-extrabold text-3xl flex flex-row gap-3 items-center"
-            >
-                <span className="bg-black text-white p-1 text-2xl rounded-xl -rotate-12 scale-110 hover:shadow-md transition-all">
-                    24
-                </span>
-                <Flex direction="column">
-                    <Title order={1} fw={800} fz="lg">
-                        SIMKU
-                    </Title>
-                    <Text c="dimmed" fz="xs" mt={rem(-3)}>
-                        Simple as finest, as easy as possible
-                    </Text>
+            <UnstyledButton component={Link} href="/dashboard">
+                <Flex fw={800} gap="md" align="center" direction="row" fs="xl">
+                    <Flex direction="column">
+                        <Title order={1} fw={800} fz="xl">
+                            SIMKU24
+                        </Title>
+                        <Text c="dimmed" fz="xs" mt={rem(-3)}>
+                            Simple as finest, as easy as possible
+                        </Text>
+                    </Flex>
                 </Flex>
-            </Link>
+            </UnstyledButton>
             <Popover
                 width="target"
                 trapFocus
@@ -58,10 +57,10 @@ export default function Header() {
                     <Card
                         component="button"
                         radius="md"
-                        style={{ textAlign: 'left' }}
+                        style={{ textAlign: 'left', cursor: 'pointer' }}
                     >
                         <Flex align="center" direction="row" gap="md">
-                            {status === 'authenticated' && (
+                            {status === 'authenticated' ? (
                                 <Group>
                                     <Avatar
                                         src={null}
@@ -83,6 +82,24 @@ export default function Header() {
                                         <Text c="dimmed" size="xs">
                                             {data?.user?.jabatan}
                                         </Text>
+                                    </Card>
+                                    <FiChevronDown />
+                                </Group>
+                            ) : (
+                                <Group>
+                                    <Skeleton height={rem(38)} circle />
+                                    <Card p={0} style={{ flex: 1 }}>
+                                        <Skeleton
+                                            height={rem(15)}
+                                            width={rem(200)}
+                                            radius="md"
+                                            mb={rem(5)}
+                                        />
+                                        <Skeleton
+                                            height={rem(10)}
+                                            width={rem(150)}
+                                            radius="md"
+                                        />
                                     </Card>
                                     <FiChevronDown />
                                 </Group>

@@ -1,11 +1,13 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Paper, Title } from '@mantine/core'
 
 export default function Page() {
     return (
-        <Fragment>
-            <h1 className="font-bold text-2xl">Pengajuan UP</h1>
-        </Fragment>
+        <Paper>
+            <Title order={2} mb="sm">
+                Pengajuan UP
+            </Title>
+        </Paper>
     )
 }

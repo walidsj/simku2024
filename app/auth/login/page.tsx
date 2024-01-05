@@ -30,7 +30,7 @@ export default function Page() {
         })
 
         if (result?.error) {
-            toast.error('Username dan password salah.')
+            toast.error('Kombinasi username dan password salah.')
             setPending((prev) => !prev)
         }
 

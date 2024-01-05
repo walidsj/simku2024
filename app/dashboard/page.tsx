@@ -1,12 +1,9 @@
 'use client'
 
 import { Card, Grid, Paper, Title, Text } from '@mantine/core'
-import { useSession } from 'next-auth/react'
 import { Sparkline } from '@mantine/charts'
 
 export default function Page() {
-    const { data } = useSession()
-
     return (
         <Paper>
             <Title order={2} mb="sm">

@@ -1,12 +1,8 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
-import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
 
-export default async function middleware(
-    req: NextRequest,
-    event: NextFetchEvent
-) {
-    const token = await getToken({ req, secret: process.env.SECRET })
+export default async function middleware(req: NextRequest) {
+    const token = await getToken({ req })
 
     if (req.nextUrl.pathname.startsWith('/auth')) {
         if (token) {
@@ -15,11 +11,18 @@ export default async function middleware(
     }
 
     if (req.nextUrl.pathname.startsWith('/dashboard')) {
-        const authMiddleware = withAuth({
-            pages: {
-                signIn: `/auth/login`,
-            },
-        })
-        return authMiddleware(req as NextRequestWithAuth, event)
+        if (!token || (token.exp as number) < Date.now() / 1000) {
+            const redirectUrl = new URL('/auth/login', req.url)
+            redirectUrl.searchParams.set('callbackUrl', encodeURI(req.url))
+            return NextResponse.redirect(redirectUrl)
+        }
+
+        if (req.nextUrl.pathname.startsWith('/dashboard/admin')) {
+            if (token.role !== 'ADMIN') {
+                return NextResponse.redirect(new URL('/dashboard', req.url))
+            }
+        }
+
+        return NextResponse.next()
     }
 }

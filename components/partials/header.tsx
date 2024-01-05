@@ -10,15 +10,13 @@ import {
     Skeleton,
     Text,
     Title,
-    UnstyledButton,
     rem,
 } from '@mantine/core'
 import { signOut, useSession } from 'next-auth/react'
-import Link from 'next/link'
 import { FiChevronDown, FiPower } from 'react-icons/fi'
 
 export default function Header() {
-    const { data, status } = useSession()
+    const { data: session, status } = useSession()
 
     return (
         <Flex
@@ -33,18 +31,16 @@ export default function Header() {
                 borderBottom: '1px solid #dee2e6',
             }}
         >
-            <UnstyledButton component={Link} href="/dashboard">
-                <Flex fw={800} gap="md" align="center" direction="row" fs="xl">
-                    <Flex direction="column">
-                        <Title order={1} fw={800} fz="xl">
-                            SIMKU24
-                        </Title>
-                        <Text c="dimmed" fz="xs" mt={rem(-3)}>
-                            Simple as finest, as easy as possible
-                        </Text>
-                    </Flex>
+            <Flex fw={800} gap="md" align="center" direction="row" fs="xl">
+                <Flex direction="column">
+                    <Title order={1} fw={800} fz="xl">
+                        SIMKU24
+                    </Title>
+                    <Text c="dimmed" fz="xs" mt={rem(-3)}>
+                        Simple as finest, as easy as possible
+                    </Text>
                 </Flex>
-            </UnstyledButton>
+            </Flex>
             <Popover
                 width="target"
                 trapFocus
@@ -52,6 +48,7 @@ export default function Header() {
                 withArrow
                 shadow="md"
                 radius="md"
+                disabled={status !== 'authenticated'}
             >
                 <Popover.Target>
                     <Card
@@ -64,11 +61,11 @@ export default function Header() {
                                 <Group>
                                     <Avatar
                                         src={null}
-                                        alt={data?.user?.nama}
+                                        alt={session?.user?.nama}
                                         color="dark"
                                         radius="xl"
                                     >
-                                        {data?.user?.nama
+                                        {session?.user?.nama
                                             .split(' ')
                                             .map((n) => n[0])
                                             .join('')
@@ -76,11 +73,11 @@ export default function Header() {
                                     </Avatar>
                                     <Card p={0} style={{ flex: 1 }}>
                                         <Text size="sm" fw={500}>
-                                            {data?.user?.nama}
+                                            {session?.user?.nama}
                                         </Text>
 
                                         <Text c="dimmed" size="xs">
-                                            {data?.user?.jabatan}
+                                            {session?.user?.jabatan}
                                         </Text>
                                     </Card>
                                     <FiChevronDown />

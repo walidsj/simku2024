@@ -2,52 +2,55 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { FiBook, FiFile, FiHome, FiPieChart } from 'react-icons/fi'
-import { Tooltip, Title, rem, Button, Flex, NavLink } from '@mantine/core'
+import {
+    Tooltip,
+    Title,
+    rem,
+    Button,
+    Flex,
+    NavLink,
+    Skeleton,
+} from '@mantine/core'
 import { usePathname } from 'next/navigation'
+import { mainLinksData, linksData } from './sidebar-data'
+import { useSession } from 'next-auth/react'
 
-const mainLinksData = [
-    { icon: FiHome, label: 'Beranda' },
-    { icon: FiPieChart, label: 'Anggaran' },
-    { icon: FiBook, label: 'Penatausahaan' },
-]
+const LinksSkeleton = () => {
+    const LinkSkeleton = () => (
+        <Flex direction="row" gap="xs">
+            <Skeleton width={rem(30)} height={rem(30)} radius="md" />
+            <Flex direction="column" gap="xs" flex={1}>
+                <Skeleton width="100%" height={rem(10)} radius="md" />
+                <Skeleton width="75%" height={rem(10)} radius="md" />
+            </Flex>
+        </Flex>
+    )
+    return (
+        <Flex direction="column" gap="lg" p="md">
+            {Array.from({ length: 5 }).map((_, i) => (
+                <LinkSkeleton key={i} />
+            ))}
+        </Flex>
+    )
+}
 
-const linksData = [
-    {
-        icon: FiHome,
-        label: 'Dashboard',
-        description: 'Halaman Ringkasan',
-        href: '/dashboard',
-        parent: 'Beranda',
-    },
-    {
-        icon: FiFile,
-        label: 'DPA',
-        description: 'Daftar Pelaksanaan Anggaran',
-        href: '/dashboard/anggaran/dpa',
-        parent: 'Anggaran',
-    },
-    {
-        icon: FiFile,
-        label: 'Pengajuan UP',
-        description: 'Uang Persediaan',
-        href: '/dashboard/penatausahaan/pengajuan-up',
-        parent: 'Penatausahaan',
-    },
-]
+const MainLinksSkeleton = () =>
+    Array.from({ length: 5 }).map((_, i) => (
+        <Skeleton key={i} width={rem(57.33)} height={rem(36)} radius="md" />
+    ))
 
 export default function Sidebar() {
     const pathname = usePathname()
     const [active, setActive] = useState('')
+    const { data: session } = useSession()
 
     function isActiveLink(href: string) {
-        if (href === '/dashboard') {
-            if (pathname === href) return true
-            return false
+        const search = linksData.filter((link) => link.href.startsWith(href))
+        if (search.length > 1) {
+            return pathname === href
         } else {
-            if (pathname.startsWith(href)) return true
+            return pathname.startsWith(href)
         }
-        return false
     }
 
     function getActiveParentLabel() {
@@ -58,33 +61,38 @@ export default function Sidebar() {
         return label === getActiveParentLabel()
     }
 
-    const mainLinks = mainLinksData.map((link, i) => (
-        <Tooltip
-            key={i}
-            label={link.label}
-            position="right"
-            withArrow
-            transitionProps={{ duration: 0 }}
-        >
-            <Button
-                variant={
-                    active
-                        ? link.label === active
+    const mainLinks = mainLinksData
+        .filter((link) => {
+            if (link.isAdmin) return session?.user.role === 'ADMIN'
+            return true
+        })
+        .map((link, i) => (
+            <Tooltip
+                key={i}
+                label={link.label}
+                position="right"
+                withArrow
+                transitionProps={{ duration: 0 }}
+            >
+                <Button
+                    variant={
+                        active
+                            ? link.label === active
+                                ? 'filled'
+                                : 'subtle'
+                            : isActiveParent(link.label)
                             ? 'filled'
                             : 'subtle'
-                        : isActiveParent(link.label)
-                        ? 'filled'
-                        : 'subtle'
-                }
-                color="dark"
-                onClick={() => setActive(link.label)}
-                fz="xl"
-                radius="md"
-            >
-                <link.icon />
-            </Button>
-        </Tooltip>
-    ))
+                    }
+                    color="dark"
+                    onClick={() => setActive(link.label)}
+                    fz="xl"
+                    radius="md"
+                >
+                    <link.icon />
+                </Button>
+            </Tooltip>
+        ))
 
     const links = linksData
         .filter((link) => {
@@ -100,7 +108,7 @@ export default function Sidebar() {
                 active={isActiveLink(link.href)}
                 label={link.label}
                 description={link.description}
-                leftSection={<FiBook />}
+                leftSection={<link.icon />}
             />
         ))
 
@@ -114,7 +122,7 @@ export default function Sidebar() {
                     borderRight: '1px solid #dee2e6',
                 }}
             >
-                {mainLinks}
+                {session ? mainLinks : <MainLinksSkeleton />}
             </Flex>
             <Flex
                 direction="column"
@@ -131,9 +139,17 @@ export default function Sidebar() {
                         borderBottom: '1px solid #dee2e6',
                     }}
                 >
-                    {active || getActiveParentLabel()}
+                    {session ? (
+                        active || getActiveParentLabel()
+                    ) : (
+                        <Skeleton
+                            width={rem(150)}
+                            height={rem(24)}
+                            radius="md"
+                        />
+                    )}
                 </Title>
-                <nav>{links}</nav>
+                <nav>{session ? links : <LinksSkeleton />}</nav>
             </Flex>
         </Flex>
     )

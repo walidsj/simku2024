@@ -45,11 +45,6 @@ export default function Page() {
                         <Text>Rp 0,00</Text>
                     </Card>
                 </Grid.Col>
-                <Grid.Col span={12}>
-                    <Card withBorder radius="md">
-                        {JSON.stringify(data?.user)}
-                    </Card>
-                </Grid.Col>
             </Grid>
         </Paper>
     )
